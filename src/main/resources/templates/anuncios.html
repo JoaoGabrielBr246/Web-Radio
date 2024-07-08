@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Radio - Anúncios</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #000;
+            color: #00ff00;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .audio-player {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 255, 0, 0.3);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #00ff00;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 20px;
+            outline: none;
+        }
+
+        @media (max-width: 768px) {
+            .audio-player {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="audio-player">
+    <h1>Anúncios quentinhos :D</h1>
+    <audio controls>
+        <source th:src="@{/api/audio-file-url}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+</div>
+</body>
+</html>

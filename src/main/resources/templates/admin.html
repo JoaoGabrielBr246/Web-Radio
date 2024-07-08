@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Web Radio Player</title>
+  <style>
+    body {
+        font-family: 'Roboto Mono', monospace;
+        background-color: #000;
+        color: #0fff0f;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .upload-form {
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 255, 0, 0.3);
+        width: 80%;
+        max-width: 600px;
+    }
+
+    h1 {
+        color: #0fff0f;
+        margin-bottom: 20px;
+        font-size: 28px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        position: relative;
+        animation: glitch 1s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch {
+        0% {
+            transform: translate(0);
+            opacity: 1;
+        }
+        20% {
+            transform: translate(-5px, 5px);
+            opacity: 0.8;
+        }
+        40% {
+            transform: translate(-5px, -5px);
+            opacity: 0.6;
+        }
+        60% {
+            transform: translate(5px, 5px);
+            opacity: 0.8;
+        }
+        80% {
+            transform: translate(5px, -5px);
+            opacity: 0.6;
+        }
+        100% {
+            transform: translate(0);
+            opacity: 1;
+        }
+    }
+
+    .file-label {
+        display: block;
+        margin-bottom: 20px;
+        color: #0fff0f;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .file-label:hover {
+        color: #00ff00;
+    }
+
+    .file-input {
+        display: none;
+    }
+
+    .file-name {
+        display: block;
+        margin-top: 10px;
+        color: #0fff0f;
+        font-style: italic;
+    }
+
+    .btn {
+        background-color: #e67e22;
+        color: #fff;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 30px;
+        transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+        outline: none;
+    }
+
+    .btn:hover {
+        background-color: #f7931b;
+        transform: scale(1.05);
+    }
+
+    .btn:focus {
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    }
+
+    @media (max-width: 768px) {
+        .upload-form {
+            width: 90%;
+        }
+    }
+  </style>
+</head>
+<body>
+<div class="upload-form">
+  <h1>Admin</h1>
+  <label for="audioFile" class="file-label">Clique aqui para escolher o arquivo MP3</label>
+  <input type="file" id="audioFile" accept=".mp3" class="file-input" onchange="displayFileName()">
+  <span id="fileName" class="file-name"></span>
+  <button class="btn" onclick="uploadAdvertisement()">Enviar Arquivo</button>
+</div>
+
+<script>
+  function displayFileName() {
+      var audioFile = document.getElementById('audioFile').files[0];
+      var fileName = document.getElementById('fileName');
+      if (audioFile) {
+          fileName.textContent = 'Arquivo selecionado: ' + audioFile.name;
+      } else {
+          fileName.textContent = '';
+      }
+  }
+
+  function uploadAdvertisement() {
+      var audioFile = document.getElementById('audioFile').files[0];
+      if (!audioFile) {
+          alert('Por favor, selecione um arquivo MP3 para enviar.');
+          return;
+      }
+
+      var formData = new FormData();
+      formData.append('file', audioFile);
+
+      fetch('/api/upload', {
+          method: 'POST',
+          body: formData
+      })
+      .then(response => {
+          if (response.ok) {
+              alert('Arquivo enviado com sucesso!');
+              window.location.href = '/admin'; //redirecionar depois do upload
+          } else {
+              alert('Falha ao enviar o arquivo.');
+          }
+      })
+      .catch(error => {
+          console.error('Erro ao enviar o arquivo:', error);
+          alert('Erro ao enviar o arquivo.');
+      });
+  }
+</script>
+
+</body>
+</html>

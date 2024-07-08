@@ -16,7 +16,7 @@ public class IPFilter implements Filter {
 
     private static final Logger LOGGER = Logger.getLogger(IPFilter.class.getName());
 
-    private List<String> allowedIPs = Arrays.asList("127.0.0.1","192.168.3.5");
+    private List<String> allowedIPs = Arrays.asList("sua.lista.de.ips","pode.inserir.varios.ips");
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
